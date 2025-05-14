@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inicio | SIGMA-IB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    #botones-container {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      max-width: 600px;
+      margin: 50px auto;
+    }
+
+    .boton-panel {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background-color: #006341 !important; 
+      color:  #f1eade !important;
+      font-size: 22px;
+      font-weight: bold;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      width: 100%;
+      min-height: 70px;
+      letter-spacing: 0.5px;
+      text-align: left;
+      gap: 18px;
+    }
+
+    .boton-panel svg {
+      width: 30px;
+      height: 30px;
+      fill: white;
+      flex-shrink: 0;
+    }
+
+    .boton-panel:hover {
+      background-color: #004d2a !important;
+      transform: translateY(-2px);
+    }
+
+    .boton-cerrar {
+      background-color: #a94442 !important;
+    }
+
+    .boton-cerrar:hover {
+      background-color: #8c2d2a !important;
+    }
+
+    .eslogan {
+      text-align: center;
+      font-size: 26px;
+      font-weight: bold;
+      color: #006341;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="img/logo_imss.png" alt="Logo IMSS" />
+    <div class="titulo-centro">
+      Sistema Integral de Gestión Médica y Ambulancias<br />
+      <small>(SIGMA-IB)</small>
+    </div>
+    <img src="img/Sigma-ib.png" alt="Logo SIGMA" />
+  </header>
+
+  <div class="eslogan">Bienvenido(a), <span id="nombre_usuario">Usuario</span></div>
+
+  <main>
+    <div id="botones-container">
+
+      <!-- Hospital -->
+      <button id="btn-solicitud" class="boton-panel" onclick="location.href='paso1_traslado.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M14 2v6h6"/></svg>
+        Solicitud de Traslado
+      </button>
+
+      <button id="btn-buscar" class="boton-panel" onclick="location.href='buscar_traslado.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        Buscar Traslado
+      </button>
+
+      <!-- Ambulancia -->
+      <button id="btn-ambulancia" class="boton-panel" onclick="location.href='despacho_ambulancia.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 14v-4l4-4h10l4 4v4"/><path d="M6 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm12 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+        Registro de Ambulancia
+      </button>
+
+      <button id="btn-incidentes" class="boton-panel" onclick="location.href='incidentes.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86l-8.5 14.74A1 1 0 0 0 2.71 21h18.58a1 1 0 0 0 .85-1.4L13.71 3.86a1 1 0 0 0-1.72 0z"/></svg>
+        Reporte de Incidentes
+      </button>
+
+      <!-- Gerencia -->
+      <button id="btn-kpi" class="boton-panel" onclick="location.href='indicadores.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+        Indicadores (KPI)
+      </button>
+
+      <button class="boton-panel boton-cerrar" onclick="cerrarSesion()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v4"/><path d="M10 21H6a2 2 0 0 1-2-2v-4"/><path d="M21 3L3 21"/></svg>
+        Cerrar sesión
+      </button>
+
+    </div>
+  </main>
+
+  <script>
+    const nombre = localStorage.getItem("nombre_visible") || "Usuario";
+    const rol = localStorage.getItem("rol") || "";
+
+    document.getElementById("nombre_usuario").textContent = nombre;
+
+    const hospitalBtns = ["btn-solicitud", "btn-buscar"];
+    const ambulanciaBtns = ["btn-buscar", "btn-ambulancia", "btn-incidentes"];
+    const gerenciaBtns = ["btn-solicitud", "btn-buscar", "btn-ambulancia", "btn-incidentes", "btn-kpi"];
+
+    const ocultarTodos = () => {
+      document.querySelectorAll("#botones-container button").forEach(btn => {
+        btn.style.display = "none";
+      });
+    };
+
+    const mostrarBotones = (ids) => {
+      ids.forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.style.display = "flex";
+      });
+    };
+
+    ocultarTodos();
+
+    if (rol === "hospital") {
+      mostrarBotones(hospitalBtns);
+    } else if (rol === "ambulancia") {
+      mostrarBotones(ambulanciaBtns);
+    } else if (rol === "gerencia") {
+      mostrarBotones(gerenciaBtns);
+    } else {
+      alert("❌ Rol no reconocido. Por favor, inicie sesión correctamente.");
+      window.location.href = "login.html";
+    }
+
+    function cerrarSesion() {
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>

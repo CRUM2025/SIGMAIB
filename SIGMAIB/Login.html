@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inicio de Sesión | SIGMA-IB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <img src="img/logo_imss.png" alt="IMSS" />
+    <div class="titulo-centro">
+      Sistema Integral de Gestión Médica y Ambulancias<br />
+      <small>(SIGMA-IB)</small>
+    </div>
+    <img src="img/Sigma-ib.png" alt="SIGMA" />
+  </header>
+
+  <div class="eslogan">“Coordinamos traslados. Protegemos vidas.”</div>
+
+  <div class="login-container">
+    <h2>Inicio de Sesión</h2>
+    <input type="text" id="usuario" placeholder="👤 Usuario institucional" autocomplete="username" />
+    <input type="password" id="password" placeholder="🔒 Contraseña" autocomplete="current-password" />
+    <button onclick="iniciarSesion()">Ingresar</button>
+    <div id="mensaje-error" style="color:red; margin-top:10px;"></div>
+  </div>
+
+  <script>
+    function iniciarSesion() {
+      const usuario = document.getElementById("usuario").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      fetch("https://script.google.com/macros/s/AKfycbw-8TT-paZDPWH6Ggd9-Y9abVIOptmsMc5u5uTUCDE94n0d6st76T6pd-6F7_oYOAeYGg/exec?usuario=" + usuario + "&password=" + password)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === "ok") {
+            localStorage.setItem("usuario", usuario);
+            localStorage.setItem("rol", data.rol);
+            localStorage.setItem("nombre_visible", data.nombre_visible);
+
+            if (data.rol === "hospital") {
+              window.location.href = "modulo_traslado.html";
+            } else if (data.rol === "ambulancia") {
+              window.location.href = "modulo_ambulancia.html";
+            } else if (data.rol === "gerencia") {
+              window.location.href = "dashboard.html";
+            }
+          } else {
+            document.getElementById("mensaje-error").innerText = "❌ Credenciales inválidas. Intenta de nuevo.";
+          }
+        })
+        .catch(error => {
+          document.getElementById("mensaje-error").innerText = "Error al conectar con el servidor.";
+        });
+    }
+  </script>
+</body>
+</html>
+

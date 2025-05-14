@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Buscar Solicitud | SIGMA-IB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background-color: #f6f4f2; color: #006341; text-align: center; padding: 50px; }
+    h1 { margin-bottom: 30px; }
+    input[type="text"] {
+      padding: 12px; width: 300px; border-radius: 6px; border: 1px solid #ccc; font-size: 16px;
+    }
+    button {
+      padding: 12px 30px; background-color: #006341; color: white; border: none; border-radius: 6px;
+      font-size: 16px; cursor: pointer; margin-top: 20px;
+    }
+    button:hover { background-color: #004d2f; }
+    #resultado { margin-top: 40px; text-align: left; max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    h2 { color: #004d2f; margin-top: 40px; }
+  </style>
+  <!-- Librerías para generar PDF con estilos -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+ 
+  <header>
+    <img src="img/logo_imss.png" alt="IMSS" />
+    <div class="titulo-centro">
+      Sistema Integral de Gestión Médica y Ambulancias<br />
+      <small><strong>(SIGMA-IB)</strong></small>
+    </div>
+    <img src="img/Sigma-ib.png" alt="SIGMA" />
+  </header>
+
+  <h1>🔍 Buscar Solicitud de Traslado</h1>
+
+<input type="text" id="codigo_buscar" placeholder="Ingrese código de traslado (Ej. TRS-1234)" />
+<br>
+<button onclick="buscarSolicitud()">Buscar</button>
+
+<div id="resultado"></div>
+
+<script>
+function buscarSolicitud() {
+  const codigo = document.getElementById("codigo_buscar").value.trim();
+  if (!codigo) {
+    alert("Por favor ingrese un código de traslado.");
+    return;
+  }
+
+  fetch(`https://script.google.com/macros/s/AKfycby1JjZlplDCQiADg7wPAWYTSIC5PfxYRXXo_vhY43aIaTRjbKDCoYuABMZo8VfZSKb0HQ/exec?codigo_traslado=${encodeURIComponent(codigo)}`)
+    .then(response => response.json())
+    .then(data => {
+      const resultadoDiv = document.getElementById("resultado");
+      if (!data || data.error) {
+        resultadoDiv.innerHTML = "<p>❌ No se encontraron datos para este código de traslado.</p>";
+        return;
+      }
+
+      let html = `<h2>Datos del Traslado</h2><table>`;
+      for (const seccion in data) {
+        if (typeof data[seccion] === "object") {
+          for (const campo in data[seccion]) {
+            const label = campo.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+            html += `<tr><th>${label}</th><td>${data[seccion][campo]}</td></tr>`;
+          }
+        }
+      }
+      html += `</table>`;
+      html += `<button onclick="descargarPDF()">📄 Descargar PDF</button>`;
+      resultadoDiv.innerHTML = html;
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Error al buscar la solicitud: " + err.message);
+    });
+}
+
+function descargarPDF() {
+  const resultado = document.getElementById('resultado');
+
+  html2canvas(resultado, { scale: 2 }).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    const imgWidth = pageWidth - 20; // Margen de 10mm a cada lado
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    const totalPages = Math.ceil(imgHeight / (pageHeight - 20)); // Restamos márgenes
+
+    for (let i = 0; i < totalPages; i++) {
+      const position = -i * (pageHeight - 20);
+      pdf.addImage(
+        imgData, 
+        'PNG', 
+        10, 
+        position + 10, 
+        imgWidth, 
+        imgHeight
+      );
+
+      if (i === totalPages - 1) {
+        // Espacio para las firmas al final de la última página
+        const yStart = pageHeight - 80;
+        pdf.setFontSize(12);
+        pdf.text("_____________________________", 20, yStart);
+        pdf.text("Médico Unidad Solicitante", 25, yStart + 10);
+
+        pdf.text("_____________________________", 110, yStart);
+        pdf.text("Médico Ambulancia", 125, yStart + 10);
+
+        pdf.text("_____________________________", 20, yStart + 30);
+        pdf.text("Médico Unidad Receptora", 25, yStart + 40);
+      }
+      if (i < totalPages - 1) {
+        pdf.addPage();
+      }
+    }
+
+    pdf.save('Solicitud_Traslado.pdf');
+  });
+}
+</script>
+
+</body>
+</html>

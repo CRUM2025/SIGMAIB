@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario Recepción | SIGMA-IB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <img src="img/logo_imss.png" alt="Logo IMSS">
+  <div class="titulo-centro">
+    Sistema Integral de Gestión Médica y Ambulancias<br><small>(SIGMA-IB)</small>
+  </div>
+  <img src="img/Sigma-ib.png" alt="Logo SIGMA">
+</header>
+
+<div class="eslogan">“Coordinamos traslados. Protegemos vidas.”</div>
+
+<h1>Formato de Solicitud de Traslado Interhospitalario</h1>
+<h2><u>Sección 4: Información de la Unidad Receptora</u></h2>
+
+<form id="formRecepcion">
+    <input type="hidden" name="formulario_origen" value="Recepcion" />  
+
+  <div style="grid-column: span 2;">
+    <label for="codigo_traslado">Código de Traslado</label>
+    <input type="text" id="codigo_traslado" name="codigo_traslado" readonly>
+  </div>
+
+  <div>
+    <label for="fecha_recepcion">Fecha de Recepción</label>
+    <input type="date" id="fecha_recepcion" name="fecha_recepcion" required>
+  </div>
+
+  <div>
+    <label for="hora_recepcion">Hora de Recepción</label>
+    <input type="time" id="hora_recepcion" name="hora_recepcion" required>
+  </div>
+
+  <div>
+    <label for="unidad_receptor">Unidad Receptora</label>
+    <select id="unidad_receptor" name="unidad_receptor" required>
+      <option value="">Seleccione una unidad</option>
+      <option value="Hospital Pediatrico San Juan Aragon">Hospital Pediàtrico San Juan Aragón</option>
+      <option value="Hospital Pediatrico La Villa">Hospital Pediátrico La Villa</option>
+      <option value="Hospital Materno Infantil Cuautepec">Hospital Materno Infantil Cuautepec</option>
+      <option value="Hospital General Ticoman">Hospital General Ticoman</option>
+      <option value="Hospital General La Villa">Hospital General La Villa</option>
+      <option value="Hospital Pediatrico Iztacalco">Hospital Pediátrico Iztacalco</option>
+      <option value="Hospital Pediatrico Iztapalapa">Hospital Pediátrico Iztapalapa</option>
+      <option value="Hospital General Iztapalapa">Hospital General Iztapalapa</option>
+      <option value="Hospital Materno Infantil Magdalena Contreras">Hospital Materno Infantil Magdalena Contreras</option>
+      <option value="Hospital General Balbuena">Hospital General Balbuena</option>
+      <option value="Hospital General Milpa Alta">Hospital General Milpa Alta</option>
+      <option value="Hospital Materno Infantil Tlahuac">Hospital Materno Infantil Tláhuac</option>
+      <option value="Clinica Hospital de Especialidades Toxicolçogicas Xochimilco">Clinica Hospital de Especialidades Toxicológicas Xochimilco</option>
+      <option value="Hospital Materno Pediatrico Xochimilco">Hospital Materno Pediátrico Xochimilco</option>
+      <option value="Hospital Pediatrico Peralvillo">Hospital Pediátrico Peralvillo</option>
+      <option value="Hospital General Dr Gregorio Salas">Hospital General Dr Gregorio Salas</option>
+      <option value="Hospital General Xoco">Hospital General Xoco</option>
+      <option value="Hospital Pediatrico Tacubaya">Hospital Pediátrico Tacubaya</option>
+      <option value="Hospital Pediatirco Legaria">Hospital Pediátrico Legaria</option>
+      <option value="Hospital General Dr Ruben Leñero">Hospital General Dr Rubén Leñero</option>
+      <option value="Clinica Hospital de Especialidades Toxicolçogicas Venustiano Carranza">Clinica Hospital de Especialidades Toxicológicas Venustiano Carranza</option>
+      <option value="Hospital Materno Infantil Inguaran">Hospital Materno Infantil Inguarán</option>
+      <option value="Hospital Pediatrico Moctezuma">Hospital Pedíatrico Moctezuma</option>
+      <option value="Hospital de Especialidades de la Ciudad de Mexico Dr Belisario Dominguez">Hospital de Especialidades de la Ciudad de México Dr Belisario Domínguez</option>
+      <option value="Hospital General Topilejo">Hospital General Topilejo</option>
+      <option value="Hospital Oncologico para la Mujer dela Ciudad de Mexico">Hospital Oncológico para la Mujer de la Ciudad de México</option>
+      <option value="Hospital General Cuajimalpa">Hospital General Cuajimalpa</option>
+      <option value="Hospital General Dr Enrique Cabrera">Hospital General Dr Enrique Cabrera</option>
+      <option value="Clinica Hospital Emiliano Zapata">Clínica Hospital Emiliano Zapata</option>
+      <option value="Hospital General Ajusco Medio">Hospital General Ajusco Medio </option>
+      <option value="Hospital General Tlahuac">Hospital General Tláhuac</option>
+      <option value="Hospital Pediatrico Azcapotzalco">Hospital Pediátrico Azcapotzalco </option>
+      <option value="Hospital Materno Infantil Dr Nicolas M Cedillo">Hospital Materno Infantil Dr Nicolás M Cedillo </option>
+      <option value="Hospital Pediatrico Coyoacan">Hospital Pedíatrico Coyoacán </option>
+    </select>
+  </div>
+
+  <div>
+    <label for="servicio_receptor">Servicio Receptor</label>
+    <select id="servicio_receptor" name="servicio_receptor" required>
+      <option value="">Seleccione un servicio</option>
+      <option value="Urgencias">Urgencias</option>
+      <option value="Terapia Intensiva">Terapia Intensiva</option>
+      <option value="Hospitalización">Hospitalización</option>
+      <option value="Neonatología">Neonatología</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="medico_acepta">Médico que Acepta</label>
+    <input type="text" name="medico_acepta" required>
+  </div>
+
+  <div>
+    <label for="medico_recibe">Médico que Recibe</label>
+    <input type="text" name="medico_recibe" required>
+  </div>
+
+  <div>
+    <label for="cama_recepcion">Cama Asignada</label>
+    <input type="text" name="cama_recepcion" required>
+  </div>
+
+  <div class="bloque-condicional" style="grid-column: span 2;">
+    <div class="check-opcion">
+      <label for="estudios_solicitados">Estudios solicitados</label>
+      <input type="checkbox" id="estudios_solicitados" name="estudios_solicitados" value="Sí">
+    </div>
+    <input type="text" id="descripcion_estudios" name="descripcion_estudios" class="detalle-condicional" placeholder="Describa los estudios">
+  </div>
+  
+  <div class="bloque-condicional" style="grid-column: span 2;">
+    <div class="check-opcion">
+      <label for="documentos_solicitados">Documentos solicitados</label>
+      <input type="checkbox" id="documentos_solicitados" name="documentos_solicitados" value="Sí">
+    </div>
+    <input type="text" id="descripcion_documentos" name="descripcion_documentos" class="detalle-condicional" placeholder="Describa los documentos">
+  </div>
+  
+  <div class="bloque-condicional" style="grid-column: span 2;">
+    <div class="check-opcion">
+      <label for="material_solicitado">Material solicitado</label>
+      <input type="checkbox" id="material_solicitado" name="material_solicitado" value="Sí">
+    </div>
+    <input type="text" id="descripcion_material" name="descripcion_material" class="detalle-condicional" placeholder="Describa el material">
+  </div>
+  
+
+  <button type="submit">Guardar y Finalizar</button>
+</form>
+
+<script>
+    // Cargar código y fecha/hora actuales
+    document.getElementById("codigo_traslado").value = localStorage.getItem("codigo_traslado") || "";
+  
+    const hoy = new Date();
+    document.getElementById("fecha_recepcion").value = hoy.toISOString().split("T")[0];
+    document.getElementById("hora_recepcion").value = hoy.toTimeString().slice(0, 5);
+  
+    // Mostrar/ocultar campos condicionales
+    const toggleInput = (checkboxId, inputId) => {
+      const check = document.getElementById(checkboxId);
+      const input = document.getElementById(inputId);
+      check.addEventListener("change", () => {
+        input.style.display = check.checked ? "block" : "none";
+        if (!check.checked) input.value = "";
+      });
+      input.style.display = check.checked ? "block" : "none";
+    };
+  
+    toggleInput("estudios_solicitados", "descripcion_estudios");
+    toggleInput("documentos_solicitados", "descripcion_documentos");
+    toggleInput("material_solicitado", "descripcion_material");
+  
+    // Envío del formulario y descarga automática del PDF
+
+    document.getElementById("formRecepcion").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    formData.append("formulario_origen", "Recepcion");
+
+    const codigo = document.getElementById("codigo_traslado").value;
+
+    fetch("https://script.google.com/macros/s/AKfycbzFn969rKf6A_e8t-oRc2clUvHAWwZkWKuZk58K8Mien-qb0ZArdqHwjxknMKyQ1pbJBQ/exec", {
+      method: "POST",
+      body: new URLSearchParams(formData)
+    })
+    .then(res => res.text())
+    .then(data => {
+      if (data.trim() === "OK") {
+        const pdfUrl = `https://script.google.com/macros/s/AKfycbz2264dN_vM3CBg3nfiNKZ9H2eDLqvpT0xxyEXRDpO6A1BBBG8RzTymwUb7jAapLTJYGw/exec?codigo_traslado=${codigo}`;
+        window.open(pdfUrl, '_blank'); // Abre y descarga en nueva pestaña
+        setTimeout(() => {
+          window.location.href = "modulo_traslado.html";
+        }, 3000);
+      } else {
+        alert("Error del servidor: " + data);
+      }
+    })
+    .catch(err => alert("Error de conexión: " + err.message));
+  });
+</script>
+</body>
+</html>

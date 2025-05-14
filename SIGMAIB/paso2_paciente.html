@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario Paciente | SIGMA-IB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <img src="img/logo_imss.png" alt="Logo IMSS">
+  <div class="titulo-centro">
+    Sistema Integral de Gestión Médica y Ambulancias<br><small>(SIGMA-IB)</small>
+  </div>
+  <img src="img/Sigma-ib.png" alt="Logo SIGMA">
+</header>
+
+<div class="eslogan">“Coordinamos traslados. Protegemos vidas.”</div>
+
+<h1>Formato de Solicitud de Traslado Interhospitalario</h1>
+<h2><u>Sección 2: Información del Paciente</u></h2>
+
+
+<form id="formPaciente">
+        <input type="hidden" name="formulario_origen" value="Paciente" />
+      
+  <div>
+    <label for="codigo_traslado">Código de Traslado</label>
+    <input type="text" id="codigo_traslado" name="codigo_traslado" readonly>
+  </div>
+
+  <div>
+    <label for="nombre">Nombre</label>
+    <input type="text" name="nombre" required>
+  </div>
+
+  <div>
+    <label for="apellido_paterno">Apellido Paterno</label>
+    <input type="text" name="apellido_paterno" required>
+  </div>
+
+  <div>
+    <label for="apellido_materno">Apellido Materno</label>
+    <input type="text" name="apellido_materno" required>
+  </div>
+
+  <div>
+    <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+    <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
+  </div>
+
+  <div>
+    <label for="edad">Edad</label>
+    <input type="number" name="edad" id="edad" readonly>
+  </div>
+
+  <div style="grid-column: span 2;">
+    <label for="sexo">Sexo</label>
+    <select name="sexo" id="sexo" required>
+      <option value="">Seleccione</option>
+      <option value="Masculino">Masculino</option>
+      <option value="Femenino">Femenino</option>
+      <option value="Otro">Otro</option>
+    </select>
+
+    <div id="sexo_otro_container">
+      <label for="sexo_otro">Especifique</label>
+      <input type="text" name="sexo_otro" id="sexo_otro">
+    </div>
+  </div>
+
+  <div>
+    <label for="peso">Peso (kg)</label>
+    <input type="number" name="peso" step="0.1" required>
+  </div>
+
+  <div>
+    <label for="talla">Talla (cm)</label>
+    <input type="number" name="talla" step="0.1" required>
+  </div>
+
+  <div>
+    <label for="alergias">Alergias</label>
+    <select name="alergias" id="alergias" onchange="mostrarDescripcion()">
+        <option value="">Seleccione</option>
+        <option value="No">No</option>
+        <option value="Sí">Sí</option>
+    </select>
+  </div>
+
+  <div id="descripcionAlergia" style="display: none; margin-top: 10px;">
+    <label for="cual_alergia">Describa las Alergias</label>
+    <input type="text" name="cual_alergia" id="cual_alergia" placeholder="Ejemplo: Penicilina, polen..." />
+  </div>
+
+  <div>
+    <label for="glucometria">Glucometría</label>
+    <input type="text" name="glucometria">
+  </div>
+
+  <div>
+    <label for="glasgow">Glasgow</label>
+    <input type="number" name="glasgow" min="3" max="15">
+  </div>
+
+  <div>
+    <label for="four">FOUR</label>
+    <input type="number" name="four" min="0" max="16">
+  </div>
+
+  <div>
+    <label for="rass">RASS</label>
+    <input type="number" name="rass">
+  </div>
+
+  <div>
+    <label for="ramsay">Ramsay</label>
+    <input type="number" name="ramsay">
+  </div>
+
+  <div>
+    <label for="apgar">Apgar</label>
+    <input type="number" name="apgar">
+  </div>
+
+  <div>
+    <label for="silverman">Silverman</label>
+    <input type="number" name="silverman">
+  </div>
+
+  <div>
+    <label for="capurro">Capurro</label>
+    <input type="number" name="capurro">
+  </div>
+
+  <button type="submit">Guardar y Continuar</button>
+</form>
+
+<script>
+  document.getElementById("codigo_traslado").value = localStorage.getItem("codigo_traslado") || "";
+
+  document.getElementById("fecha_nacimiento").addEventListener("change", function () {
+    const fechaNacimiento = new Date(this.value);
+    const hoy = new Date();
+    let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+    const mes = hoy.getMonth() - fechaNacimiento.getMonth();
+    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+      edad--;
+    }
+    document.getElementById("edad").value = edad;
+  });
+
+  const sexoSelect = document.getElementById("sexo");
+  const otroContainer = document.getElementById("sexo_otro_container");
+  const inputOtro = document.getElementById("sexo_otro");
+
+  sexoSelect.addEventListener("change", function () {
+    if (this.value === "Otro") {
+      otroContainer.classList.add("visible");
+      inputOtro.setAttribute("required", "required");
+    } else {
+      otroContainer.classList.remove("visible");
+      inputOtro.removeAttribute("required");
+      inputOtro.value = "";
+    }
+  });
+
+  function mostrarDescripcion() {
+    const alergias = document.getElementById("alergias").value;
+    const descDiv = document.getElementById("descripcionAlergia");
+
+    if (alergias === "Sí") {
+        descDiv.style.display = "block";
+    } else {
+        descDiv.style.display = "none";
+        document.getElementById("cual_alergia").value = ""; // Limpiar campo si no aplica
+    }
+}
+
+  document.getElementById("formPaciente").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    formData.append("formulario_origen", "Paciente");
+
+    const sexo = formData.get("sexo");
+    const sexo_otro = formData.get("sexo_otro");
+    if (sexo === "Otro" && sexo_otro) {
+      formData.set("sexo", `Otro: ${sexo_otro}`);
+    }
+
+    fetch("https://script.google.com/macros/s/AKfycbzFn969rKf6A_e8t-oRc2clUvHAWwZkWKuZk58K8Mien-qb0ZArdqHwjxknMKyQ1pbJBQ/exec", {
+  method: "POST",
+  body: new URLSearchParams(formData)
+})
+
+    .then(res => res.text())
+    .then(data => {
+      if (data.trim() === "OK") {
+        alert("Datos del paciente guardados correctamente.");
+        window.location.href = "paso3_tratamiento.html";
+      } else {
+        alert("Error del servidor: " + data);
+      }
+    })
+    .catch(err => {
+      alert("Error de conexión: " + err.message);
+    });
+  });
+</script>
+
+</body>
+</html>
